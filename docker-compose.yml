@@ -10,7 +10,7 @@ services:
       context: .
       dockerfile: Dockerfile
       args:
-        - BIRDNET_GO_VERSION=v0.6.4
+        - BIRDNET_GO_VERSION=sha256:233b94f1d3b27b261ec8d997364db0cb953f3e3b3362a89e9e22ad4a589143d6
     # image: ghcr.io/tphakala/birdnet-go:latest   # alternative: pull upstream directly
     restart: always
     privileged: true

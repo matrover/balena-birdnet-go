@@ -4,9 +4,11 @@
 # a prebuilt image), while reusing upstream's published multi-arch
 # (amd64 + arm64) image as the runtime base.
 
-# Pin to the upstream release; bump when BirdNET-Go releases a new version.
-ARG BIRDNET_GO_VERSION=v0.6.4
-FROM ghcr.io/tphakala/birdnet-go:${BIRDNET_GO_VERSION}
+# Digest-pinned snapshot of upstream `latest` (verified to resolve on GHCR;
+# multi-arch: linux/amd64 + linux/arm64). A digest is immutable, so balena
+# builds are reproducible. Bump when BirdNET-Go publishes a new release.
+ARG BIRDNET_GO_VERSION=sha256:233b94f1d3b27b261ec8d997364db0cb953f3e3b3362a89e9e22ad4a589143d6
+FROM ghcr.io/tphakala/birdnet-go@${BIRDNET_GO_VERSION}
 
 # Metadata
 LABEL io.balena.arch="amd64 arm64" \

@@ -47,7 +47,7 @@ Settings are managed from the BirdNET-Go web UI and persist in the `birdnet-conf
 
 ## Architecture of this repo
 
-The stack builds locally on the device via the included `Dockerfile`, which is a thin wrapper around the official [`ghcr.io/tphakala/birdnet-go`](https://ghcr.io/tphakala/birdnet-go) multi-arch image, pinned to release **v0.6.4** (`BIRDNET_GO_VERSION` build arg / compose build arg). This keeps the build self-contained for balena's `docker build` while inheriting upstream's tested runtime (BirdNET model, MQTT, web UI, ALSA/sox tooling). To pin a different release, change `BIRDNET_GO_VERSION` in both the `Dockerfile` and `docker-compose.yml`. The service runs privileged with `/dev/snd` mapped so a USB sound card is directly usable.
+The stack builds locally on the device via the included `Dockerfile`, which is a thin wrapper around the official [`ghcr.io/tphakala/birdnet-go`](https://ghcr.io/tphakala/birdnet-go) multi-arch image, pinned by **digest** to a verified snapshot of upstream `latest` (digest `sha256:233b94f1...589143d6`, multi-arch amd64+arm64; `BIRDNET_GO_VERSION` build arg / compose build arg). A digest pin is immutable, so balena builds are reproducible even when upstream republishes tags. This keeps the build self-contained for balena's `docker build` while inheriting upstream's tested runtime (BirdNET model, MQTT, web UI, ALSA/sox tooling). To pin a different release, change `BIRDNET_GO_VERSION` in both the `Dockerfile` and `docker-compose.yml`. The service runs privileged with `/dev/snd` mapped so a USB sound card is directly usable.
 
 ## Credits
 
