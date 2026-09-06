@@ -1,0 +1,16 @@
+name: BirdNET-Go bird recognition
+type: sw.application
+description: >-
+  Realtime bird sound recognition on balenaOS, based on BirdNET-Go.
+  Detections are published over MQTT with Home Assistant auto-discovery,
+  so bird sightings appear directly in Home Assistant.
+post-provisioning:
+  - Open the device's public URL (port 8080) and complete the BirdNET-Go onboarding wizard.
+  - Configure an audio source (USB sound card or RTSP stream) in the BirdNET-Go settings.
+  - Point the MQTT settings at your Home Assistant MQTT broker (e.g. Mosquitto add-on)
+    to enable auto-discovery of bird detection sensors.
+assets:
+  logo:
+    url: https://raw.githubusercontent.com/tphakala/birdnet-go/main/doc/BirdNET-Go-logo.webp
+data:
+  - RESIN_HOST_CONFIG_dtparam: "audio=on"
