@@ -6,15 +6,24 @@ volumes:
 
 services:
   birdnet-go:
-    image: ghcr.io/tphakala/birdnet-go:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        - BIRDNET_GO_VERSION=v0.6.4
+    # image: ghcr.io/tphakala/birdnet-go:latest   # alternative: pull upstream directly
     restart: always
+    privileged: true
     ports:
       - "8080:8080"
     volumes:
       - "birdnet-config:/config"
       - "birdnet-data:/data"
+    devices:
+      - "/dev/snd:/dev/snd"
     environment:
       - TZ=Europe/Amsterdam
     labels:
       io.balena.features.balena-api: "1"
       io.balena.features.kernel-modules: "1"
+      io.balena.features.supervisor-api: "1"

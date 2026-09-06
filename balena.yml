@@ -11,6 +11,6 @@ post-provisioning:
     to enable auto-discovery of bird detection sensors.
 assets:
   logo:
-    url: https://raw.githubusercontent.com/tphakala/birdnet-go/main/doc/BirdNET-Go-logo.webp
+    url: logo.webp
 data:
   - RESIN_HOST_CONFIG_dtparam: "audio=on"

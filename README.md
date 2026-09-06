@@ -2,6 +2,8 @@
 
 [![Deploy with balena](https://www.balena.io/deploy.svg)](https://dashboard.balena-cloud.com/deploy?repoUrl=https://github.com/matrover/balena-birdnet-go)
 
+![BirdNET-Go logo](logo.webp)
+
 Realtime bird sound recognition on a Raspberry Pi running [balenaOS](https://balena.io), built on [BirdNET-Go](https://github.com/tphakala/birdnet-go).
 
 - **Bird recognition**: 6,500+ bird species with the embedded BirdNET model; optional Google Perch v2, BattyBirdNET, and Geomodel models installable from the app.
@@ -27,7 +29,7 @@ balena push <your-fleet-name>
 ## Setup after boot
 
 1. Open the device's web dashboard (port **8080**; use the balena public device URL if the Pi is remote) and complete the onboarding wizard.
-2. Add an audio source: a USB sound card (`/dev/snd`) or an RTSP stream URL.
+2. Add an audio source: a USB sound card (mapped into the container as `/dev/snd`; balenaOS exposes it automatically when a USB audio device is plugged in) or an RTSP stream URL.
 3. In *Settings → Integrations → MQTT*, point BirdNET-Go at your MQTT broker (e.g. the Mosquitto add-on in Home Assistant). Home Assistant discovers the bird detection entities automatically.
 
 ## Why BirdNET-Go instead of BirdNET-Pi?
@@ -42,6 +44,10 @@ Settings are managed from the BirdNET-Go web UI and persist in the `birdnet-conf
 |---|---|---|
 | `TZ` | `Europe/Amsterdam` | Timezone |
 | `BIRDNET_UID` / `BIRDNET_GID` | `1000` | File ownership for the volumes |
+
+## Architecture of this repo
+
+The stack builds locally on the device via the included `Dockerfile`, which is a thin wrapper around the official [`ghcr.io/tphakala/birdnet-go`](https://ghcr.io/tphakala/birdnet-go) multi-arch image, pinned to release **v0.6.4** (`BIRDNET_GO_VERSION` build arg / compose build arg). This keeps the build self-contained for balena's `docker build` while inheriting upstream's tested runtime (BirdNET model, MQTT, web UI, ALSA/sox tooling). To pin a different release, change `BIRDNET_GO_VERSION` in both the `Dockerfile` and `docker-compose.yml`. The service runs privileged with `/dev/snd` mapped so a USB sound card is directly usable.
 
 ## Credits
 
